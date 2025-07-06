@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 אתגרים לילדים חכמים</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            direction: rtl;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .category-card.math {
+            border-color: #ff6b6b;
+        }
+
+        .category-card.english {
+            border-color: #4ecdc4;
+        }
+
+        .category-card.shapes {
+            border-color: #45b7d1;
+        }
+
+        .category-card.logic {
+            border-color: #f9ca24;
+        }
+
+        .category-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .category-description {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .challenge-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .challenge-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .challenge-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .back-button {
+            background: #f0f0f0;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #e0e0e0;
+        }
+
+        .challenge-question {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            direction: rtl;
+        }
+
+        .math-expression {
+            direction: ltr;
+            display: inline-block;
+            font-family: 'Courier New', monospace;
+            background: #f0f8ff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+
+        .matrix-display {
+            font-family: 'Courier New', monospace;
+            font-size: 1.8rem;
+            line-height: 1.2;
+            text-align: center;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            direction: ltr;
+            white-space: pre-line;
+        }
+
+        .challenge-options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .option:hover {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        .option.selected {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        .option.correct {
+            background: #e8f5e8;
+            border-color: #4caf50;
+        }
+
+        .option.incorrect {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+
+        .submit-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .next-button {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .next-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .feedback.correct {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .feedback.incorrect {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .completion-page {
+            text-align: center;
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .completion-page h1 {
+            font-size: 2.5rem;
+            color: #4caf50;
+            margin-bottom: 30px;
+        }
+
+        .completion-page p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .certificate {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .certificate h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .certificate p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .fun-fact {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: right;
+        }
+
+        .fun-fact h3 {
+            color: #1976d2;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .restart-button {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .restart-button:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .challenge-container {
+                padding: 20px;
+            }
+            
+            .completion-page {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Homepage -->
+        <div id="homepage">
+            <div class="header">
+                <h1>🎯 100 אתגרים לילדים חכמים</h1>
+                <p>בדוק את הידע שלך ופתור 100 אתגרים מרתקים!</p>
+            </div>
+
+            <div class="categories">
+                <div class="category-card math" onclick="showCategory('math')">
+                    <div class="category-icon">🧮</div>
+                    <div class="category-title">מתמטיקה</div>
+                    <div class="category-description">40 אתגרים במתמטיקה: חישוב, חשבון בעל פה, שברים ופתרון בעיות</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="math-progress"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="math-count">0</span> / 40 אתגרים
+                    </div>
+                </div>
+
+                <div class="category-card english" onclick="showCategory('english')">
+                    <div class="category-icon">🔤</div>
+                    <div class="category-title">אנגלית</div>
+                    <div class="category-description">20 אתגרים באנגלית: אותיות, מילים, אוצר מילים ותרגום</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="english-progress"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="english-count">0</span> / 20 אתגרים
+                    </div>
+                </div>
+
+                <div class="category-card shapes" onclick="showCategory('shapes')">
+                    <div class="category-icon">🔷</div>
+                    <div class="category-title">צורות וחזותיות</div>
+                    <div class="category-description">20 אתגרים בלוגיקה חזותית: תבניות, מטריצות ופאזלים מרחביים</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="shapes-progress"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="shapes-count">0</span> / 20 אתגרים
+                    </div>
+                </div>
+
+                <div class="category-card logic" onclick="showCategory('logic')">
+                    <div class="category-icon">🧠</div>
+                    <div class="category-title">חשיבה והיגיון</div>
+                    <div class="category-description">20 אתגרים בחשיבה: חידות, היגיון, קוד סודי ופתרון בעיות</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="logic-progress"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="logic-count">0</span> / 20 אתגרים
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenge Container -->
+        <div id="challenge-container" class="hidden">
+            <div class="challenge-container">
+                <div class="challenge-header">
+                    <div class="challenge-number" id="challenge-number">אתגר 1</div>
+                    <button class="back-button" onclick="showHomepage()">חזרה לדף הבית</button>
+                </div>
+
+                <div class="challenge-question" id="challenge-question"></div>
+
+                <div class="challenge-options" id="challenge-options"></div>
+
+                <div>
+                    <button class="submit-button" id="submit-button" onclick="checkAnswer()">בדוק תשובה</button>
+                    <button class="next-button hidden" id="next-button" onclick="nextChallenge()">האתגר הבא</button>
+                </div>
+
+                <div class="feedback hidden" id="feedback"></div>
+            </div>
+        </div>
+
+        <!-- Completion Page -->
+        <div id="completion-page" class="completion-page hidden">
+            <h1>🎉 מזל טוב! 🎉</h1>
+            <p>סיימת את כל 100 האתגרים!</p>
+            
+            <div class="certificate">
+                <h2>תעודת הצטיינות</h2>
+                <p>אנחנו גאים להעניק לך תעודת הצטיינות</p>
+                <p>על השלמת 100 אתגרים בהצלחה!</p>
+                <p>אתה ילד חכם ומוכשר!</p>
+            </div>
+
+            <div class="fun-fact">
+                <h3>🧠 עובדה מעניינת:</h3>
+                <p>המוח שלך מכיל יותר מ-86 מיליארד תאי עצב! כשאתה פותר אתגרים כמו אלה, אתה מאמן את המוח שלך להיות חזק יותר. המשך ללמוד ולהתפתח!</p>
+            </div>
+
+            <p>תודה ששיחקת! אתה יכול להתחיל מחדש ולפתור את האתגרים שוב.</p>
+            
+            <button class="restart-button" onclick="restartGame()">התחל מחדש</button>
+        </div>
+    </div>
+
+    <script>
+        // Challenge data
+        var challenges = {
+            math: [
+                { question: "כמה זה <span class='math-expression'>25 + 17</span>?", options: ["42", "32", "45", "41"], correct: 0 },
+                { question: "מה התוצאה של <span class='math-expression'>8 × 7</span>?", options: ["54", "56", "64", "58"], correct: 1 },
+                { question: "כמה זה <span class='math-expression'>144 ÷ 12</span>?", options: ["12", "14", "10", "16"], correct: 0 },
+                { question: "איזה מספר חסר ברצף?<div class='math-expression'>3, 6, 9, ?, 15</div>", options: ["11", "12", "13", "14"], correct: 1 },
+                { question: "מה שווה <span class='math-expression'>1/2 + 1/4</span>?", options: ["2/6", "3/4", "1/6", "2/8"], correct: 1 },
+                { question: "כמה זה <span class='math-expression'>15 × 4</span>?", options: ["60", "55", "65", "50"], correct: 0 },
+                { question: "מה התוצאה של <span class='math-expression'>100 - 37</span>?", options: ["63", "73", "67", "77"], correct: 0 },
+                { question: "כמה זה <span class='math-expression'>36 ÷ 6</span>?", options: ["5", "6", "7", "8"], correct: 1 },
+                { question: "איזה מספר הכי גדול?<div class='math-expression'>0.5, 1/3, 2/5, 0.7</div>", options: ["0.5", "1/3", "2/5", "0.7"], correct: 3 },
+                { question: "מה התוצאה של <span class='math-expression'>9 × 6</span>?", options: ["54", "56", "52", "58"], correct: 0 },
+                { question: "כמה זה <span class='math-expression'>200 - 85</span>?", options: ["115", "125", "105", "135"], correct: 0 },
+                { question: "איזה מספר חסר ברצף?<div class='math-expression'>2, 4, 8, 16, ?</div>", options: ["24", "32", "20", "28"], correct: 1 },
+                { question: "מה שווה <span class='math-expression'>3/4</span> של <span class='math-expression'>20</span>?", options: ["15", "12", "18", "16"], correct: 0 },
+                { question: "כמה זה <span class='math-expression'>13 × 3</span>?", options: ["39", "36", "42", "33"], correct: 0 },
+                { question: "מה התוצאה של <span class='math-expression'>81 ÷ 9</span>?", options: ["8", "9", "10", "7"], correct: 1 },
+                { question: "איזה מספר זוגי?<div class='math-expression'>17, 23, 34, 41</div>", options: ["17", "23", "34", "41"], correct: 2 },
+                { question: "כמה זה <span class='math-expression'>45 + 28</span>?", options: ["73", "63", "83", "67"], correct: 0 },
+                { question: "מה התוצאה של <span class='math-expression'>7 × 8</span>?", options: ["54", "56", "64", "48"], correct: 1 },
+                { question: "כמה זה <span class='math-expression'>120 ÷ 8</span>?", options: ["15", "12", "18", "14"], correct: 0 },
+                { question: "איזה מספר חסר ברצף?<div class='math-expression'>5, 10, 20, 40, ?</div>", options: ["60", "80", "70", "100"], correct: 1 },
+                { question: "מה שווה <span class='math-expression'>2/3 + 1/6</span>?", options: ["3/9", "5/6", "4/9", "7/12"], correct: 1 },
+                { question: "כמה זה <span class='math-expression'>16 × 5</span>?", options: ["80", "75", "85", "70"], correct: 0 },
+                { question: "מה התוצאה של <span class='math-expression'>150 - 67</span>?", options: ["83", "93", "73", "87"], correct: 0 },
+                { question: "כמה זה <span class='math-expression'>72 ÷ 8</span>?", options: ["8", "9", "10", "7"], correct: 1 },
+                { question: "איזה מספר אי-זוגי?<div class='math-expression'>24, 36, 45, 58</div>", options: ["24", "36", "45", "58"], correct: 2 },
+                { question: "מה התוצאה של <span class='math-expression'>11 × 9</span>?", options: ["99", "89", "109", "79"], correct: 0 },
+                { question: "כמה זה <span class='math-expression'>63 + 29</span>?", options: ["92", "82", "102", "88"], correct: 0 },
+                { question: "מה התוצאה של <span class='math-expression'>96 ÷ 12</span>?", options: ["8", "6", "10", "7"], correct: 0 },
+                { question: "איזה מספר חסר ברצף?<div class='math-expression'>1, 4, 9, 16, ?</div>", options: ["20", "25", "21", "24"], correct: 1 },
+                { question: "מה שווה <span class='math-expression'>5/8</span> של <span class='math-expression'>24</span>?", options: ["15", "12", "18", "20"], correct: 0 },
+                { question: "כמה זה <span class='math-expression'>14 × 6</span>?", options: ["84", "74", "94", "64"], correct: 0 },
+                { question: "מה התוצאה של <span class='math-expression'>180 - 95</span>?", options: ["85", "75", "95", "80"], correct: 0 },
+                { question: "כמה זה <span class='math-expression'>56 ÷ 7</span>?", options: ["8", "7", "9", "6"], correct: 0 },
+                { question: "איזה מספר ראשוני?<div class='math-expression'>15, 17, 21, 25</div>", options: ["15", "17", "21", "25"], correct: 1 },
+                { question: "מה התוצאה של <span class='math-expression'>12 × 7</span>?", options: ["84", "74", "94", "64"], correct: 0 },
+                { question: "כמה זה <span class='math-expression'>77 + 35</span>?", options: ["112", "102", "122", "108"], correct: 0 },
+                { question: "מה התוצאה של <span class='math-expression'>108 ÷ 9</span>?", options: ["12", "11", "13", "10"], correct: 0 },
+                { question: "איזה מספר חסר ברצף?<div class='math-expression'>3, 7, 15, 31, ?</div>", options: ["63", "47", "55", "67"], correct: 0 },
+                { question: "מה שווה <span class='math-expression'>3/5 + 1/10</span>?", options: ["4/15", "7/10", "2/5", "1/2"], correct: 1 },
+                { question: "כמה זה <span class='math-expression'>19 × 4</span>?", options: ["76", "84", "68", "72"], correct: 0 }
+            ],
+            english: [
+                { question: "איזו אות חסרה? A, B, C, ?, E", options: ["D", "F", "G", "H"], correct: 0 },
+                { question: "מה הפירוש של המילה 'CAT'?", options: ["כלב", "חתול", "ציפור", "דג"], correct: 1 },
+                { question: "איזו אות חסרה? M, N, ?, P", options: ["O", "Q", "L", "R"], correct: 0 },
+                { question: "מה הפירוש של המילה 'TREE'?", options: ["פרח", "עץ", "עלה", "ענף"], correct: 1 },
+                { question: "איזו אות חסרה? X, Y, ?", options: ["Z", "W", "V", "U"], correct: 0 },
+                { question: "מה הפירוש של המילה 'HOUSE'?", options: ["רחוב", "עיר", "בית", "גן"], correct: 2 },
+                { question: "איזו אות חסרה? F, G, H, ?", options: ["I", "E", "J", "K"], correct: 0 },
+                { question: "מה הפירוש של המילה 'BOOK'?", options: ["עיפרון", "נייר", "ספר", "מחברת"], correct: 2 },
+                { question: "איזו אות חסרה? R, S, T, ?", options: ["U", "V", "W", "Q"], correct: 0 },
+                { question: "מה הפירוש של המילה 'WATER'?", options: ["אוכל", "מים", "חלב", "מיץ"], correct: 1 },
+                { question: "איזו אות חסרה? J, K, L, ?", options: ["M", "N", "I", "O"], correct: 0 },
+                { question: "מה הפירוש של המילה 'HAPPY'?", options: ["עצוב", "כועס", "שמח", "עייף"], correct: 2 },
+                { question: "איזו אות חסרה? B, D, F, ?", options: ["G", "H", "E", "I"], correct: 1 },
+                { question: "מה הפירוש של המילה 'SCHOOL'?", options: ["בית", "חנות", "בית ספר", "גינה"], correct: 2 },
+                { question: "איזו אות חסרה? A, C, E, ?", options: ["F", "G", "D", "H"], correct: 1 },
+                { question: "מה הפירוש של המילה 'FRIEND'?", options: ["אויב", "חבר", "משפחה", "מורה"], correct: 1 },
+                { question: "איזו אות חסרה? P, Q, R, ?", options: ["S", "T", "O", "U"], correct: 0 },
+                { question: "מה הפירוש של המילה 'FOOD'?", options: ["אוכל", "שתייה", "צלחת", "כוס"], correct: 0 },
+                { question: "איזו אות חסרה? L, M, N, ?", options: ["O", "K", "P", "Q"], correct: 0 },
+                { question: "מה הפירוש של המילה 'FAMILY'?", options: ["חברים", "משפחה", "שכנים", "מורים"], correct: 1 }
+            ],
+            shapes: [
+                { question: "איזו צורה משלימה את המטריצה?<div class='matrix-display'>■  ▼  ○\n⚫  □  ?</div>", options: ["△", "◆", "▲", "●"], correct: 0 },
+                { question: "איזו צורה משלימה את המטריצה?<div class='matrix-display'>○  ◆  △\n□  ◇  ?</div>", options: ["▽", "▲", "■", "○"], correct: 0 },
+                { question: "איזו צורה משלימה את הדפוס?<div class='matrix-display'>●  ○  ●\n○  ●  ?</div>", options: ["○", "●", "◐", "▲"], correct: 0 },
+                { question: "איזו צורה משלימה את המטריצה?<div class='matrix-display'>◐  ◑  ◒\n◓  ◐  ?</div>", options: ["◑", "◒", "◓", "◐"], correct: 0 },
+                { question: "איזו צורה משלימה את הדפוס?<div class='matrix-display'>△  ▲  ▼\n▽  △  ?</div>", options: ["▲", "▼", "▽", "△"], correct: 0 },
+                { question: "איזו צורה משלימה את המטריצה?<div class='matrix-display'>●  ○  ◐\n■  □  ?</div>", options: ["◧", "◨", "◩", "▣"], correct: 0 },
+                { question: "איזו צורה משלימה את הדפוס?<div class='matrix-display'>◆  ■  ●\n◇  □  ?</div>", options: ["○", "●", "◐", "○"], correct: 0 },
+                { question: "איזו צורה משלימה את המטריצה?<div class='matrix-display'>▲  ▼  ◄\n►  ▲  ?</div>", options: ["▼", "◄", "►", "▲"], correct: 0 },
+                { question: "איזו צורה משלימה את הדפוס?<div class='matrix-display'>■■  □□  ●●\n■□  □●  ?</div>", options: ["●■", "□●", "■●", "●□"], correct: 0 },
+                { question: "איזו צורה משלימה את המטריצה?<div class='matrix-display'>◯  ◈  ◉\n◎  ●  ?</div>", options: ["○", "◐", "◑", "◒"], correct: 1 },
+                { question: "איזו צורה משלימה את הדפוס?<div class='matrix-display'>△  ○  ◆\n□  ■  ?</div>", options: ["▽", "◇", "△", "●"], correct: 0 },
+                { question: "איזו צורה משלימה את המטריצה?<div class='matrix-display'>↑  →  ↓\n←  ↑  ?</div>", options: ["→", "↓", "←", "↑"], correct: 0 },
+                { question: "איזו צורה משלימה את הדפוס המורכב?<div class='matrix-display'>●○  ○●  ■□\n○●  ●○  ?</div>", options: ["□■", "■□", "●○", "○●"], correct: 0 },
+                { question: "איזו צורה משלימה את המטריצה?<div class='matrix-display'>▲▼  ◄►  ●○\n▼▲  ►◄  ?</div>", options: ["○●", "●○", "◐◑", "◑◐"], correct: 0 },
+                { question: "איזו צורה משלימה את הדפוס?<div class='matrix-display'>■  ▣  ▤\n▥  ■  ?</div>", options: ["▣", "▤", "▥", "■"], correct: 0 },
+                { question: "איזו צורה משלימה את המטריצה?<div class='matrix-display'>◊  ◈  ♦\n♢  ◊  ?</div>", options: ["◈", "♦", "♢", "◊"], correct: 0 },
+                { question: "איזו צורה משלימה את הדפוס?<div class='matrix-display'>⚫⚪  ⚪⚫  ■□\n⚪⚫  ⚫⚪  ?</div>", options: ["□■", "■□", "⚫⚪", "⚪⚫"], correct: 0 },
+                { question: "איזו צורה משלימה את המטריצה?<div class='matrix-display'>▣  ▤  ⬛\n⬜  ▣  ?</div>", options: ["▤", "⬛", "⬜", "▣"], correct: 0 },
+                { question: "איזו צורה משלימה את הדפוס?<div class='matrix-display'>◢  ◣  ◤\n◥  ◢  ?</div>", options: ["◣", "◤", "◥", "◢"], correct: 0 },
+                { question: "איזו צורה משלימה את המטריצה?<div class='matrix-display'>★  ☆  ✦\n✧  ★  ?</div>", options: ["☆", "✦", "✧", "★"], correct: 0 }
+            ],
+            logic: [
+                { question: "אם כל הכלבים הם בעלי חיים, וכל הבעלי חיים זקוקים למים, מה נכון?", options: ["כלבים לא זקוקים למים", "כלבים זקוקים למים", "רק חתולים זקוקים למים", "דגים לא זקוקים למים"], correct: 1 },
+                { question: "מה המספר הבא ברצף? 2, 4, 8, 16, ?", options: ["24", "32", "20", "28"], correct: 1 },
+                { question: "איזה מילה לא שייכת לקבוצה? תפוח, בננה, גזר, תפוז", options: ["תפוח", "בננה", "גזר", "תפוז"], correct: 2 },
+                { question: "אם A=1, B=2, C=3, כמה שווה CAB?", options: ["312", "123", "321", "132"], correct: 0 },
+                { question: "איזה יום יהיה מחר אם היום יום שני?", options: ["יום ראשון", "יום שלישי", "יום רביעי", "יום חמישי"], correct: 1 },
+                { question: "מה המספר החסר? 1, 4, 9, 16, ?", options: ["20", "25", "21", "24"], correct: 1 },
+                { question: "איזה בעל חיים לא יכול לעוף? עורב, נשר, פיל, יונה", options: ["עורב", "נשר", "פיל", "יונה"], correct: 2 },
+                { question: "אם השעה 3:00, מה תהיה השעה בעוד 5 שעות?", options: ["7:00", "8:00", "9:00", "10:00"], correct: 1 },
+                { question: "מה המשותף לכל המילים? רכב, אוטובוס, משאית, מטוס", options: ["יש להם גלגלים", "הם כלי תחבורה", "הם גדולים", "הם מהירים"], correct: 1 },
+                { question: "איזה מספר שונה מהאחרים? 2, 4, 6, 9", options: ["2", "4", "6", "9"], correct: 3 },
+                { question: "מה יהיה אם נחסיר 10 מ-100?", options: ["90", "80", "110", "70"], correct: 0 },
+                { question: "איזה צבע נוצר כשמערבים אדום וכחול?", options: ["ירוק", "סגול", "כתום", "צהוב"], correct: 1 },
+                { question: "מה המספר הבא ברצף? 1, 3, 5, 7, ?", options: ["8", "9", "10", "11"], correct: 1 },
+                { question: "איזה חפץ לא שייך לקבוצה? עיפרון, עט, מחק, כיסא", options: ["עיפרון", "עט", "מחק", "כיסא"], correct: 3 },
+                { question: "אם יש לי 5 תפוחים ונותן 2, כמה נשאר לי?", options: ["2", "3", "4", "5"], correct: 1 },
+                { question: "מה המספר הבא ברצף? 10, 20, 30, 40, ?", options: ["45", "50", "60", "70"], correct: 1 },
+                { question: "איזה עונה באה אחרי החורף?", options: ["קיץ", "אביב", "סתיו", "חורף"], correct: 1 },
+                { question: "מה המספר החסר? 5, 10, 15, ?, 25", options: ["18", "20", "22", "24"], correct: 1 },
+                { question: "איזה חיה חיה במים? כלב, חתול, דג, ציפור", options: ["כלב", "חתול", "דג", "ציפור"], correct: 2 },
+                { question: "אם 1+1=2, כמה זה 2+2?", options: ["3", "4", "5", "6"], correct: 1 }
+            ]
+        };
+
+        // Game state
+        var currentCategory = '';
+        var currentChallengeIndex = 0;
+        var selectedAnswer = null;
+        var progress = {
+            math: JSON.parse(localStorage.getItem('math-progress') || '[]'),
+            english: JSON.parse(localStorage.getItem('english-progress') || '[]'),
+            shapes: JSON.parse(localStorage.getItem('shapes-progress') || '[]'),
+            logic: JSON.parse(localStorage.getItem('logic-progress') || '[]')
+        };
+
+        // Initialize the game
+        function initializeGame() {
+            updateProgressDisplay();
+            checkCompletion();
+        }
+
+        // Update progress display
+        function updateProgressDisplay() {
+            var categories = ['math', 'english', 'shapes', 'logic'];
+            var totals = { math: 40, english: 20, shapes: 20, logic: 20 };
+            
+            for (var i = 0; i < categories.length; i++) {
+                var category = categories[i];
+                var completed = progress[category].length;
+                var total = totals[category];
+                var percentage = (completed / total) * 100;
+                
+                document.getElementById(category + '-progress').style.width = percentage + '%';
+                document.getElementById(category + '-count').textContent = completed;
+            }
+        }
+
+        // Check if all challenges are completed
+        function checkCompletion() {
+            var totalCompleted = progress.math.length + progress.english.length + progress.shapes.length + progress.logic.length;
+            if (totalCompleted >= 100) {
+                showCompletionPage();
+            }
+        }
+
+        // Show category challenges
+        function showCategory(category) {
+            currentCategory = category;
+            currentChallengeIndex = 0;
+            
+            // Find first incomplete challenge
+            var completedChallenges = progress[category];
+            for (var i = 0; i < challenges[category].length; i++) {
+                if (completedChallenges.indexOf(i) === -1) {
+                    currentChallengeIndex = i;
+                    break;
+                }
+            }
+            
+            document.getElementById('homepage').classList.add('hidden');
+            document.getElementById('challenge-container').classList.remove('hidden');
+            showChallenge();
+        }
+
+        // Show homepage
+        function showHomepage() {
+            document.getElementById('homepage').classList.remove('hidden');
+            document.getElementById('challenge-container').classList.add('hidden');
+            document.getElementById('completion-page').classList.add('hidden');
+        }
+
+        // Show current challenge
+        function showChallenge() {
+            var challenge = challenges[currentCategory][currentChallengeIndex];
+            var categoryNames = {
+                math: 'מתמטיקה',
+                english: 'אנגלית',
+                shapes: 'צורות וחזותיות',
+                logic: 'חשיבה והיגיון'
+            };
+            
+            document.getElementById('challenge-number').textContent = 
+                categoryNames[currentCategory] + ' - אתגר ' + (currentChallengeIndex + 1);
+            document.getElementById('challenge-question').textContent = challenge.question;
+            
+            var optionsContainer = document.getElementById('challenge-options');
+            optionsContainer.innerHTML = '';
+            
+            for (var i = 0; i < challenge.options.length; i++) {
+                var optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = challenge.options[i];
+                optionElement.setAttribute('data-index', i);
+                optionElement.onclick = function() {
+                    selectAnswer(parseInt(this.getAttribute('data-index')));
+                };
+                optionsContainer.appendChild(optionElement);
+            }
+            
+            // Reset UI state
+            selectedAnswer = null;
+            document.getElementById('submit-button').classList.remove('hidden');
+            document.getElementById('next-button').classList.add('hidden');
+            document.getElementById('feedback').classList.add('hidden');
+            document.getElementById('submit-button').disabled = false;
+        }
+
+        // Select answer
+        function selectAnswer(index) {
+            selectedAnswer = index;
+            
+            // Remove previous selections
+            var options = document.querySelectorAll('.option');
+            for (var i = 0; i < options.length; i++) {
+                options[i].classList.remove('selected');
+            }
+            
+            // Add selection to clicked option
+            options[index].classList.add('selected');
+        }
+
+        // Check answer
+        function checkAnswer() {
+            if (selectedAnswer === null) {
+                alert('אנא בחר תשובה');
+                return;
+            }
+            
+            var challenge = challenges[currentCategory][currentChallengeIndex];
+            var isCorrect = selectedAnswer === challenge.correct;
+            
+            // Update UI
+            var options = document.querySelectorAll('.option');
+            if (isCorrect) {
+                // Only highlight correct answer when user got it right
+                options[challenge.correct].classList.add('correct');
+            } else {
+                // Only highlight the wrong answer the user selected
+                options[selectedAnswer].classList.add('incorrect');
+            }
+            
+            // Show feedback
+            var feedback = document.getElementById('feedback');
+            var nextButton = document.getElementById('next-button');
+            feedback.classList.remove('hidden');
+            
+            if (isCorrect) {
+                feedback.textContent = '🎉 כל הכבוד! תשובה נכונה!';
+                feedback.className = 'feedback correct';
+                nextButton.textContent = 'האתגר הבא';
+                
+                // Mark challenge as completed
+                if (progress[currentCategory].indexOf(currentChallengeIndex) === -1) {
+                    progress[currentCategory].push(currentChallengeIndex);
+                    localStorage.setItem(currentCategory + '-progress', JSON.stringify(progress[currentCategory]));
+                }
+            } else {
+                feedback.textContent = '❌ לא נכון. נסה שוב!';
+                feedback.className = 'feedback incorrect';
+                nextButton.textContent = 'נסה שוב';
+            }
+            
+            // Hide submit button, show next button
+            document.getElementById('submit-button').classList.add('hidden');
+            nextButton.classList.remove('hidden');
+            
+            updateProgressDisplay();
+            checkCompletion();
+        }
+
+        // Next challenge or retry
+        function nextChallenge() {
+            var nextButton = document.getElementById('next-button');
+            
+            // Check if this is a retry (button text is "נסה שוב")
+            if (nextButton.textContent === 'נסה שוב') {
+                // Reset current challenge for retry
+                showChallenge();
+                return;
+            }
+            
+            // Find next incomplete challenge
+            var completedChallenges = progress[currentCategory];
+            var nextIndex = -1;
+            
+            for (var i = 0; i < challenges[currentCategory].length; i++) {
+                if (completedChallenges.indexOf(i) === -1) {
+                    nextIndex = i;
+                    break;
+                }
+            }
+            
+            if (nextIndex !== -1) {
+                currentChallengeIndex = nextIndex;
+                showChallenge();
+            } else {
+                // All challenges in this category are complete
+                alert('סיימת את כל האתגרים בקטגוריה זו! כל הכבוד!');
+                showHomepage();
+            }
+        }
+
+        // Show completion page
+        function showCompletionPage() {
+            document.getElementById('homepage').classList.add('hidden');
+            document.getElementById('challenge-container').classList.add('hidden');
+            document.getElementById('completion-page').classList.remove('hidden');
+        }
+
+        // Restart game
+        function restartGame() {
+            if (confirm('האם אתה בטוח שאתה רוצה להתחיל מחדש? כל ההתקדמות תימחק.')) {
+                // Clear all progress
+                localStorage.removeItem('math-progress');
+                localStorage.removeItem('english-progress');
+                localStorage.removeItem('shapes-progress');
+                localStorage.removeItem('logic-progress');
+                
+                // Reset progress object
+                progress = {
+                    math: [],
+                    english: [],
+                    shapes: [],
+                    logic: []
+                };
+                
+                // Update display and go to homepage
+                updateProgressDisplay();
+                showHomepage();
+            }
+        }
+
+        // Initialize game when page loads
+        window.onload = initializeGame;
+    </script>
+</body>
+</html>
